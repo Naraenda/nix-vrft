@@ -1,0 +1,13 @@
+diff --git a/OpenCvSharpExtern/imgproc_Subdiv2D.h b/OpenCvSharpExtern/imgproc_Subdiv2D.h
+index 38d1d9a8..51923073 100644
+--- a/OpenCvSharpExtern/imgproc_Subdiv2D.h
++++ b/OpenCvSharpExtern/imgproc_Subdiv2D.h
+@@ -25,7 +25,7 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_delete(cv::Subdiv2D *obj)
+     END_WRAP
+ }
+ 
+-CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay(cv::Subdiv2D *obj, CvRect rect)
++CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay(cv::Subdiv2D *obj, cv::Rect rect)
+ {
+     BEGIN_WRAP
+     obj->initDelaunay(rect);

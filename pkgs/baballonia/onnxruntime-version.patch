@@ -1,0 +1,29 @@
+diff --git a/src/Baballonia.Desktop/Baballonia.Desktop.csproj b/src/Baballonia.Desktop/Baballonia.Desktop.csproj
+index 60747c13..b17e28b4 100644
+--- a/src/Baballonia.Desktop/Baballonia.Desktop.csproj
++++ b/src/Baballonia.Desktop/Baballonia.Desktop.csproj
+@@ -52,7 +52,9 @@ Licensed under the Babble Software Distribution License 1.0
+         <!-- Linux-specific -->
+         <PackageReference Include="Project-Babble.OpenCvSharp4.mini.runtime.ubuntu.22.04-x64" Version="4.11.0.1" Condition="$([MSBuild]::IsOSPlatform('Linux')) And !$(RuntimeIdentifier.Contains('arm'))" />
+         <PackageReference Include="Project-Babble.OpenCvSharp4.mini.runtime.ubuntu.22.04-arm64" Version="4.11.0.1" Condition="$([MSBuild]::IsOSPlatform('Linux')) And $(RuntimeIdentifier.Contains('arm'))" />
+-	    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.22.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
++	    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.26.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
++	      <ExcludeAssets>native</ExcludeAssets>
++	    </PackageReference>
+         <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
+     </ItemGroup>
+     <ItemGroup>
+diff --git a/src/Baballonia/Baballonia.csproj b/src/Baballonia/Baballonia.csproj
+index 453c4bf..49819ac 100644
+--- a/src/Baballonia/Baballonia.csproj
++++ b/src/Baballonia/Baballonia.csproj
+@@ -64,6 +64,9 @@
+         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.4" />
+         <PackageReference Include="Microsoft.ML" Version="4.0.3" />
+         <PackageReference Include="Microsoft.ML.OnnxTransformer" Version="4.0.3" />
++        <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.26.0">
++            <ExcludeAssets>native</ExcludeAssets>
++        </PackageReference>
+         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+         <PackageReference Include="OpenCvSharp4" Version="4.13.0.20260308" />
+         <PackageReference Include="OscCore" Version="1.0.5" />

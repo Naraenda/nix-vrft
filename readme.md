@@ -1,22 +1,27 @@
 # Flake for VR facial tracking.
 
-The packages in `packages` and the `pinned` overlay are built with CUDA support enabled ([`cudaSupport = true`](https://wiki.nixos.org/wiki/CUDA#Enabling_CUDA_In_Packages)).
-
-AMD/ROCm support is untested. Baballonia needs to be fed the right flavor of the onnxruntime and I don't have a machine to test this on right now.
-
 Provides the following packages:
 
 - [`baballonia`](https://github.com/Project-Babble/Baballonia)
 - [`vrcft-avalonia`](https://github.com/dfgHiatus/VRCFaceTracking.Avalonia)
 - [`babble-trainer`](https://github.com/Project-Babble/BabbleTrainer) (untested)
 
-Run it directly:
+Packages are provided in CPU, CUDA, and ROCm variants:
 
 ```sh
-nix run github:naraenda/nix-vrft#baballonia
+nix run github:naraenda/nix-vrft#baballonia-cuda
+nix run github:naraenda/nix-vrft#baballonia-rocm
+nix run github:naraenda/nix-vrft#baballonia-cpu # No GPU support!
 ```
 
-Installing this flake:
+CUDA packages are built with [`cudaSupport = true`](https://wiki.nixos.org/wiki/CUDA#Enabling_CUDA_In_Packages).
+ROCm support is experimental and currently untested.
+
+Overlays do not provide multiple variants, e.g. only `baballonia` is provided.
+The `pinned` overlay is recommended when using these packages as it builds them against this flake's pinned nixpkgs revision.
+This avoids dependency mismatches, which are especially problematic for dotnet-based packages.
+
+## Installing this flake
 
 ```nix
 # flake.nix
@@ -34,6 +39,14 @@ Installing this flake:
 
     pkgs = import nixpkgs {
       inherit system;
+
+      config = {
+        allowUnfree = true;
+        cudaSupport = true;
+        # Or for AMD:
+        # rocmSupport = true;
+      };
+      
       overlays = [
         # Include this flake as an overlay.
         nix-vrft.overlays.pinned

@@ -93,7 +93,7 @@ buildDotnetModule (finalAttrs: rec {
     wrapProgram $out/bin/vrcft-avalonia --set LD_LIBRARY_PATH ${lib.makeLibraryPath runtimeDependencies}
   '';
 
-  dotnetInstallFlags = ["--framework net8.0"];
+  dotnetInstallFlags = [ "--framework net8.0" ];
 
   desktopEntry = makeDesktopItem {
     name = finalAttrs.pname;

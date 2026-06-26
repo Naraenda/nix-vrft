@@ -351,8 +351,8 @@
   },
   {
     "pname": "Microsoft.ML.OnnxRuntime.Managed",
-    "version": "1.18.1",
-    "hash": "sha256-t195Laj/f/T9/WXAKDvdivxs1fLroAPTrhptHmBc56Q="
+    "version": "1.26.0",
+    "hash": "sha256-14ahu7B1IyQHQ+yaU8OmEcX5lGfpNkILJOgbZVMw8YA="
   },
   {
     "pname": "Microsoft.ML.OnnxTransformer",
@@ -678,6 +678,11 @@
     "pname": "System.Numerics.Tensors",
     "version": "8.0.0",
     "hash": "sha256-rXTD0dhqJyk5oK54MIdsq3qJ1NbeTByxyrdHq2thv0w="
+  },
+  {
+    "pname": "System.Numerics.Tensors",
+    "version": "9.0.0",
+    "hash": "sha256-t1AkPDYAKmKyixrF0/vChK00C6FJTMNqyhEGEaCx+Vk="
   },
   {
     "pname": "System.Numerics.Vectors",

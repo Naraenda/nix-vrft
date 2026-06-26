@@ -7,6 +7,7 @@
   copyDesktopItems,
   dotnetCorePackages,
   enableCuda ? config.cudaSupport,
+  enableRocm ? config.rocmSupport,
   fetchFromGitHub,
   fetchpatch,
   fetchurl,
@@ -28,10 +29,11 @@
   makeDesktopItem,
   onnxruntime,
   opencv,
-  pkgsCuda, # Packages configured with 'config.cudaSupport = true'.
+  cudaPackages,
   steam-run,
   udev,
   unzip,
+  nuget,
   ...
 }:
 let
@@ -61,12 +63,10 @@ buildDotnetModule (finalAttrs: rec {
   dotnet-sdk = dotnet.sdk;
   dotnet-runtime = dotnet.runtime;
 
+  # This patch changes the required onnxruntime to the exact
+  # same version as the one provisioned by nixpkgs.
   patches = [
-    # Remove VCPKG dependancy on "Microsoft.ML.OnnxRuntime" in favor of using the native onnx runtime provided locally
-    (fetchpatch {
-      url = "https://github.com/Project-Babble/Baballonia/commit/1c60dbffab7fa1689d8a441ff52bfd4b0cfecc0c.diff";
-      hash = "sha256-k4vTgKgKJg595502TPujEDZIIv6UhZjt23AzPd2IW0s=";
-    })
+    ./onnxruntime-version.patch
   ]; # patches
 
   nativeBuildInputs = [
@@ -99,14 +99,9 @@ buildDotnetModule (finalAttrs: rec {
     libxext
     libxi
     libxkbcommon
+    onnxruntime # Will be transitively be built with CUDA or ROCm support.
     opencvsharp
     udev
-  ]
-  ++ lib.optionals (!enableCuda) [
-    onnxruntime
-  ]
-  ++ lib.optionals enableCuda [
-    pkgsCuda.onnxruntime
   ]; # runtimeDependencies
 
   postUnpack = ''
@@ -121,6 +116,8 @@ buildDotnetModule (finalAttrs: rec {
       runtimeLibPath = lib.makeLibraryPath finalAttrs.runtimeDependencies;
     in
     ''
+      ${dotnet.sdk}/bin/dotnet nuget why Microsoft.ML.OnnxRuntime.Managed > $out/share/meow.txt
+
       # Clear out bin folder, we'll link since some of these may need
       # to be wrapped. We'll also want to rename them for consistency's
       # sake.
@@ -130,10 +127,12 @@ buildDotnetModule (finalAttrs: rec {
         $out/lib/baballonia/Baballonia.Desktop \
         $out/bin/baballonia
 
-      # 'onnxruntime' does automatically load 'libnvrtc'this is fixed in version 1.27.0.
+      # 'onnxruntime' does not automatically load 'libnvrtc' this is fixed in version 1.27.0.
       wrapProgram $out/bin/baballonia \
         --prefix LD_LIBRARY_PATH : ${runtimeLibPath} \
-        --prefix LD_PRELOAD : "${pkgsCuda.cudaPackages.cuda_nvrtc.lib}/lib/libnvrtc.so.12"
+        ${lib.optionalString enableCuda ''
+          --prefix LD_PRELOAD : "${cudaPackages.cuda_nvrtc.lib}/lib/libnvrtc.so.12" \
+        ''}
 
       # Godot applications requires steam-run for whatever reason.
       # I'm too lazy to figure out what part of the FSH it needs.
@@ -156,7 +155,6 @@ buildDotnetModule (finalAttrs: rec {
       mkdir -p $out/lib/baballonia/Modules
       mv $out/lib/baballonia/Baballonia.*Capture.dll $out/lib/baballonia/Modules/
     ''; # postFixup
-
 
   desktopEntry = makeDesktopItem {
     name = finalAttrs.pname;

@@ -1,7 +1,4 @@
 {
-  config,
-  cudaPackages,
-  enableCuda ? config.cudaSupport,
   fetchFromGitHub,
   fetchpatch2,
   fetchPypi,
@@ -91,9 +88,6 @@ let
       (opencv4.override {
         enableGtk3 = true;
       })
-    ]
-    ++ lib.optionals enableCuda [
-      cudaPackages.cudatoolkit
     ];
 
     nativeBuildInputs = [

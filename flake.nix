@@ -9,7 +9,8 @@
       ...
     }:
     let
-      forAllSystems = nixpkgs.lib.genAttrs [
+      lib = nixpkgs.lib;
+      forAllSystems = lib.genAttrs [
         "x86_64-linux"
       ];
 
@@ -26,8 +27,9 @@
               {
                 # We want to ensure these packages get built with the right support!
                 enableCuda = pkgs.lib.warnIf (
-                  hasOptionalCudaSupport && !pkgs.config.cudaSupport
+                  hasOptionalCudaSupport && !pkgs.config.cudaSupport && !pkgs.config.rocmSupport
                 ) "${module}: This package works best with CUDA support enabled!" pkgs.config.cudaSupport;
+                enableRocm = pkgs.config.rocmSupport;
               }
               // overrides
             ); # mkPkg
@@ -44,17 +46,41 @@
         }; # mkPackages
 
       pinnedPkgs =
-        system:
+        system: config:
         import nixpkgs {
-          inherit system;
+          inherit system config;
+        }; # pkgs
+
+      variants = [
+        {
+          suffix = "cpu";
+          config = { };
+        }
+        {
+          suffix = "cuda";
           config = {
             allowUnfree = true;
             cudaSupport = true;
-          }; # config
-        }; # pkgs
+          };
+        }
+        {
+          suffix = "rocm";
+          config = {
+            allowUnfree = true;
+            rocmSupport = true;
+          };
+        }
+      ];
+
+      mkSuffixedPkgs =
+        system:
+        { suffix, config }:
+        (lib.mapAttrs' (name: value: lib.nameValuePair "${name}-${suffix}" value) (
+          mkPackages (pinnedPkgs system config)
+        ));
     in
     {
-      packages = forAllSystems (system: mkPackages (pinnedPkgs system));
+      packages = forAllSystems (system: lib.mergeAttrsList (map (mkSuffixedPkgs system) variants));
 
       overlays = {
         # This does not work well with dotnet modules. Nix is
@@ -63,7 +89,7 @@
 
         # This is the recommended overlay. All depedencies are
         # generated from this version.
-        pinned = final: prev: mkPackages (pinnedPkgs final.system);
-      }; # overlays
+        pinned = final: prev: mkPackages (pinnedPkgs final.system final.config);
+      };
     }; # outputs
 }

@@ -40,8 +40,8 @@ let
   opencvsharp = callPackage ./opencvsharp { inherit enableCuda; };
 
   calibZip = fetchurl {
-    url = "https://github.com/Project-Babble/BabbleCalibration/releases/download/1.0.8/Linux.zip";
-    hash = "sha256-ytKGg+qVZwHtZUWfJwesvodjIjhffortX6zPs7nWBpU=";
+    url = "https://github.com/Project-Babble/BabbleCalibration/releases/download/1.0.8/Linux.zip?dummy=1";
+    hash = "sha256-chNGgZUbJdI85QDDBJi9rfc6JoZPHO/wYRCH+5MR+Y8=";
     executable = true;
   };
   dotnet = dotnetCorePackages.dotnet_10;

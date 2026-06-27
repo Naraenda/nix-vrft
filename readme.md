@@ -14,14 +14,23 @@ nix run github:naraenda/nix-vrft#baballonia-rocm
 nix run github:naraenda/nix-vrft#baballonia-cpu # No GPU support!
 ```
 
-CUDA packages are built with [`cudaSupport = true`](https://wiki.nixos.org/wiki/CUDA#Enabling_CUDA_In_Packages).
-ROCm support is experimental and currently untested.
+CUDA tested on a dedicated GPU (4090).
+ROCm tested on an integrated GPU (9800x3D).
 
 Overlays do not provide multiple variants, e.g. only `baballonia` is provided.
 The `pinned` overlay is recommended when using these packages as it builds them against this flake's pinned nixpkgs revision.
 This avoids dependency mismatches, which are especially problematic for dotnet-based packages.
 
 ## Installing this flake
+
+The avalonia based apps want the Noto Sans font.
+Ensure it's available:
+
+```sh
+fc-match "Noto Sans"
+```
+
+The flake can be installed as an overlay.
 
 ```nix
 # flake.nix
@@ -41,10 +50,8 @@ This avoids dependency mismatches, which are especially problematic for dotnet-b
       inherit system;
 
       config = {
+        # Important!
         allowUnfree = true;
-        cudaSupport = true;
-        # Or for AMD:
-        # rocmSupport = true;
       };
       
       overlays = [
@@ -55,7 +62,11 @@ This avoids dependency mismatches, which are especially problematic for dotnet-b
   in {
     # Use any of the exposed packages.
     # E.g. exporting it out of the flake again.
-    packages.${system}.default = pkgs.baballonia;
+    packages.${system}.baballonia-cpu  = pkgs.baballonia;
+    packages.${system}.baballonia-cuda = pkgs.pkgsCuda.baballonia;
+    packages.${system}.baballonia-rocm = pkgs.pkgsRocm.baballonia;
+
+    packages.${system}.vrcft-avalonia-cpu  = pkgs.vrcft-avalonia;
   };
 }
 ```

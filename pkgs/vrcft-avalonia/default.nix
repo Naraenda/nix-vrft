@@ -81,6 +81,7 @@ buildDotnetModule (finalAttrs: rec {
   runtimeDependencies = [
     simple-rust-osc
     vulkan-loader
+    fontconfig
   ];
 
   postUnpack = ''

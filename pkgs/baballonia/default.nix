@@ -1,7 +1,6 @@
 {
   babble-trainer,
   buildDotnetModule,
-  callPackage,
   cmake,
   config,
   copyDesktopItems,
@@ -9,7 +8,6 @@
   enableCuda ? config.cudaSupport,
   enableRocm ? config.rocmSupport,
   fetchFromGitHub,
-  fetchpatch,
   fetchurl,
   fontconfig,
   lib,
@@ -28,16 +26,15 @@
   libxkbcommon,
   makeDesktopItem,
   onnxruntime,
-  opencv,
   cudaPackages,
   steam-run,
   udev,
   unzip,
+  gst_all_1,
+  glib,
   ...
 }:
 let
-  opencvsharp = callPackage ./opencvsharp { inherit enableCuda; };
-
   calibZip = fetchurl {
     url = "https://github.com/Project-Babble/BabbleCalibration/releases/download/1.0.8/Linux.zip?dummy=1";
     hash = "sha256-chNGgZUbJdI85QDDBJi9rfc6JoZPHO/wYRCH+5MR+Y8=";
@@ -83,8 +80,6 @@ buildDotnetModule (finalAttrs: rec {
     libusb1
     libuvc
     libx11
-    opencv
-    opencvsharp
     udev
   ]; # buildInputs
 
@@ -99,9 +94,12 @@ buildDotnetModule (finalAttrs: rec {
     libxi
     libxkbcommon
     onnxruntime # Will be transitively be built with CUDA or ROCm support.
-    opencvsharp
     udev
     fontconfig
+    glib
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-good
   ]; # runtimeDependencies
 
   postUnpack = ''

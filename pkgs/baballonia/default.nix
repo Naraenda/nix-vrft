@@ -33,7 +33,6 @@
   steam-run,
   udev,
   unzip,
-  nuget,
   ...
 }:
 let
@@ -102,6 +101,7 @@ buildDotnetModule (finalAttrs: rec {
     onnxruntime # Will be transitively be built with CUDA or ROCm support.
     opencvsharp
     udev
+    fontconfig
   ]; # runtimeDependencies
 
   postUnpack = ''

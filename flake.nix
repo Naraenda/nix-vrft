@@ -54,7 +54,9 @@
       variants = [
         {
           suffix = "cpu";
-          config = { };
+          config = {
+            allowUnfree = true;
+          };
         }
         {
           suffix = "cuda";

@@ -29,7 +29,7 @@
                 # We want to ensure these packages get built with the right support!
                 enableCuda = pkgs.lib.warnIf (
                   hasOptionalCudaSupport && !pkgs.config.cudaSupport && !pkgs.config.rocmSupport
-                ) "${module}: This package works best with CUDA support enabled!" pkgs.config.cudaSupport;
+                ) "${module}: This package works best with CUDA/ROCM support enabled!" pkgs.config.cudaSupport;
                 enableRocm = pkgs.config.rocmSupport;
               }
               // overrides
@@ -52,40 +52,8 @@
         import nixpkgs {
           inherit system config;
         }; # pkgs
-
-      variants = [
-        {
-          suffix = "cpu";
-          config = {
-            allowUnfree = true;
-          };
-        }
-        {
-          suffix = "cuda";
-          config = {
-            allowUnfree = true;
-            cudaSupport = true;
-          };
-        }
-        {
-          suffix = "rocm";
-          config = {
-            allowUnfree = true;
-            rocmSupport = true;
-          };
-        }
-      ];
-
-      mkSuffixedPkgs =
-        system:
-        { suffix, config }:
-        (lib.mapAttrs' (name: value: lib.nameValuePair "${name}-${suffix}" value) (
-          mkPackages (pinnedPkgs system config)
-        ));
     in
     {
-      packages = forAllSystems (system: lib.mergeAttrsList (map (mkSuffixedPkgs system) variants));
-
       overlays = {
         # This does not work well with dotnet modules. Nix is
         # very picky about having the deps pinned.
@@ -95,6 +63,35 @@
         # generated from this version.
         pinned = final: prev: mkPackages (pinnedPkgs final.system final.config);
       };
+
+      packages = forAllSystems (
+        system:
+        let
+          mkPkgs =
+            config:
+            self.overlays.pinned {
+              inherit system config;
+            } { };
+          pkgs = mkPkgs {
+            allowUnfree = true;
+          };
+          pkgsCuda = mkPkgs {
+            allowUnfree = true;
+            cudaSupport = true;
+          };
+          pkgsRocm = mkPkgs {
+            allowUnfree = true;
+            rocmSupport = true;
+          };
+        in
+        pkgs
+        // {
+          baballonia-cuda = pkgsCuda.baballonia;
+          baballonia-rocm = pkgsRocm.baballonia;
+          baballonia-trainer-cuda = pkgsCuda.babble-trainer;
+          baballonia-trainer-rocm = pkgsRocm.babble-trainer;
+        }
+      );
 
       nixosModules = {
         default =

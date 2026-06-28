@@ -3,15 +3,16 @@
 Provides the following packages:
 
 - [`baballonia`](https://github.com/Project-Babble/Baballonia)
+- [`vrcft`](https://github.com/benaclejames/VRCFaceTracking)
 - [`vrcft-avalonia`](https://github.com/dfgHiatus/VRCFaceTracking.Avalonia)
 - [`babble-trainer`](https://github.com/Project-Babble/BabbleTrainer) (untested)
 
 Packages are provided in CPU, CUDA, and ROCm variants:
 
 ```sh
-nix run github:naraenda/nix-vrft#baballonia-cuda
-nix run github:naraenda/nix-vrft#baballonia-rocm
-nix run github:naraenda/nix-vrft#baballonia-cpu # No GPU support!
+nix run github:naraenda/nix-vrft#baballonia-cuda # Pinned to pkgsCuda.
+nix run github:naraenda/nix-vrft#baballonia-rocm # Pinned to pkgsRocm.
+nix run github:naraenda/nix-vrft#baballonia # No GPU support!
 ```
 
 CUDA tested on a dedicated GPU (4090).
@@ -66,7 +67,11 @@ The flake can be installed as an overlay.
     packages.${system}.baballonia-cuda = pkgs.pkgsCuda.baballonia;
     packages.${system}.baballonia-rocm = pkgs.pkgsRocm.baballonia;
 
-    packages.${system}.vrcft-avalonia-cpu  = pkgs.vrcft-avalonia;
+    # Recommended VRCFT:
+    packages.${system}.vrcft           = pkgs.vrcft;
+
+    # Legacy VRCFT:
+    packages.${system}.vrcft-avalonia  = pkgs.vrcft-avalonia;
   };
 }
 ```

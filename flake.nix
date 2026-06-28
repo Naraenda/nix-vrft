@@ -5,6 +5,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       ...
     }:
@@ -92,6 +93,19 @@
         # This is the recommended overlay. All depedencies are
         # generated from this version.
         pinned = final: prev: mkPackages (pinnedPkgs final.system final.config);
+      };
+
+      nixosModules = {
+        default =
+          { ... }:
+          {
+            nixpkgs.overlays = [ self.overlays.default ];
+          };
+        pinned =
+          { ... }:
+          {
+            nixpkgs.overlays = [ self.overlays.pinned ];
+          };
       };
     }; # outputs
 }

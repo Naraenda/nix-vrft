@@ -50,8 +50,8 @@ buildDotnetModule (finalAttrs: rec {
   src = fetchFromGitHub {
     owner = "Project-Babble";
     repo = "Baballonia";
-    rev = "v1.1.1.0rc6";
-    hash = "sha256-3A2HjdMOHJvLDqAU43AUtwV5y/t6C4UyVtxoRPvFJPU=";
+    rev = "vrcft-module-3.2.0";
+    hash = "sha256-HIxT3xf3srqC46x1wyTLoxKJVWI78WevCnbj0T/uQNc=";
     fetchSubmodules = true;
   };
 

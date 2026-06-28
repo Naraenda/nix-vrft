@@ -1,20 +1,20 @@
 diff --git a/src/Baballonia.Desktop/Baballonia.Desktop.csproj b/src/Baballonia.Desktop/Baballonia.Desktop.csproj
-index 60747c13..b17e28b4 100644
+index 3f351ec..6e77181 100644
 --- a/src/Baballonia.Desktop/Baballonia.Desktop.csproj
 +++ b/src/Baballonia.Desktop/Baballonia.Desktop.csproj
-@@ -52,7 +52,9 @@ Licensed under the Babble Software Distribution License 1.0
-         <!-- Linux-specific -->
-         <PackageReference Include="Project-Babble.OpenCvSharp4.mini.runtime.ubuntu.22.04-x64" Version="4.11.0.1" Condition="$([MSBuild]::IsOSPlatform('Linux')) And !$(RuntimeIdentifier.Contains('arm'))" />
-         <PackageReference Include="Project-Babble.OpenCvSharp4.mini.runtime.ubuntu.22.04-arm64" Version="4.11.0.1" Condition="$([MSBuild]::IsOSPlatform('Linux')) And $(RuntimeIdentifier.Contains('arm'))" />
+@@ -48,7 +48,9 @@
+ 
+         <PackageReference Include="Project-Babble.OpenCvSharp4.mini.runtime.ubuntu.22.04-arm64" Version="4.11.0.1" Condition="$([MSBuild]::IsOSPlatform('Linux')) And
+              $([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().Contains('Arm'))" />
 -	    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.22.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
-+	    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.26.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-+	      <ExcludeAssets>native</ExcludeAssets>
-+	    </PackageReference>
++        <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.26.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
++            <ExcludeAssets>native</ExcludeAssets>
++        </PackageReference>
          <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
-     </ItemGroup>
-     <ItemGroup>
+         <PackageReference Include="Xaml.Behaviors.Interactions.Draggable" Version="11.3.9.5" />
+         <ProjectReference Include="..\Baballonia.LibV4L2Capture\Baballonia.LibV4L2Capture.csproj" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
 diff --git a/src/Baballonia/Baballonia.csproj b/src/Baballonia/Baballonia.csproj
-index 453c4bf..49819ac 100644
+index 453c4bf..ca941b3 100644
 --- a/src/Baballonia/Baballonia.csproj
 +++ b/src/Baballonia/Baballonia.csproj
 @@ -64,6 +64,9 @@

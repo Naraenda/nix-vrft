@@ -89,9 +89,14 @@ buildDotnetModule (finalAttrs: rec {
     rm $sourceRoot/Nuget.Config
   '';
 
+  # It's also important to CD to the library directory. It may try to do font discovery
+  # through harfbuzz and fontconfig in the current working directory which may be
+  # extremely slow when a networked drive is attached!
   postFixup = ''
     mv $out/bin/VRCFaceTracking.Avalonia.Desktop $out/bin/vrcft-avalonia
-    wrapProgram $out/bin/vrcft-avalonia --set LD_LIBRARY_PATH ${lib.makeLibraryPath runtimeDependencies}
+    wrapProgram $out/bin/vrcft-avalonia \
+        --set LD_LIBRARY_PATH ${lib.makeLibraryPath runtimeDependencies} \
+        --run "cd $out/lib/vrchatfacetracking"
   '';
 
   dotnetInstallFlags = [ "--framework net8.0" ];

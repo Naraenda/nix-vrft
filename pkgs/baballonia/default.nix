@@ -127,8 +127,13 @@ buildDotnetModule (finalAttrs: rec {
         $out/lib/baballonia/Baballonia.Desktop \
         $out/bin/baballonia
 
+      # It's also important to CD to the library directory. It may try to do font discovery
+      # through harfbuzz and fontconfig in the current working directory which may be
+      # extremely slow when a networked drive is attached!
+      #
       # 'onnxruntime' does not automatically load 'libnvrtc' this is fixed in version 1.27.0.
       wrapProgram $out/bin/baballonia \
+        --run "cd $out/lib/baballonia" \
         --prefix LD_LIBRARY_PATH : ${runtimeLibPath} \
         ${lib.optionalString enableCuda ''
           --prefix LD_PRELOAD : "${cudaPackages.cuda_nvrtc.lib}/lib/libnvrtc.so.12" \

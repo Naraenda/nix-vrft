@@ -94,8 +94,9 @@ buildDotnetModule (finalAttrs: rec {
       jq "del(.runtimeOptions.configProperties.\"System.Globalization.AppLocalIcu\")" "$1" | sponge "$1"
     ' sh {} \;
 
-    # Wrap the wrapper.
-    # TODO: surely this can be better...
+    # It's also important to CD to the library directory. It may try to do font discovery
+    # through harfbuzz and fontconfig in the current working directory which may be
+    # extremely slow when a networked drive is attached!
     mv $out/bin/VRCFaceTracking $out/bin/vrcft
     wrapProgram $out/bin/vrcft --run "cd $out/lib/vrchatfacetracking"
   '';

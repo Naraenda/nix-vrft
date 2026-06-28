@@ -44,6 +44,7 @@
             inherit babble-trainer;
             hasOptionalCudaSupport = true;
           }; # baballonia
+          vrcft = mkPkg ./pkgs/vrcft { };
         }; # mkPackages
 
       pinnedPkgs =

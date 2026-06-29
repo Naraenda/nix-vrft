@@ -16,8 +16,8 @@ let
   src = fetchFromGitHub {
     owner = "Project-Babble";
     repo = "BabbleTrainer";
-    rev = "1.5.2";
-    hash = "sha256-DBQ/Ez3W95QyyTjCtLBS924RJRuoXnu4vujQr9VQjlg=";
+    rev = "fd92eb13ece0c5e61270cfb74f9f757df0864b6b"; # MNV4-Exp-OCL
+    hash = "sha256-F5OVE3kSPZOLV/IpDqLfvF1eo/9EWlAvOGIxBmhySIw=";
   };
 
   version = "1.3.8";
@@ -103,6 +103,7 @@ let
     ps.pillow
     ps.tqdm
     ps.torchvision
+    ps.timm
 
     # Missing nixpkgs deps
     onnxscript
@@ -121,13 +122,6 @@ stdenv.mkDerivation {
     makeWrapper
   ];
 
-  patches = [
-    (fetchpatch2 {
-      url = "https://github.com/Project-Babble/BabbleTrainer/commit/00b33f1f773c20340b03c006187172232261d3c2.diff?full_index=1";
-      hash = "sha256-9C8UkUz3MlG67LCs8fTeetcHJ+qNhwBAtjKpoIendpE=";
-    })
-  ];
-
   buildPhase = ''
     mkdir -p $out/lib
     cp -r *.py $out/lib
@@ -136,7 +130,7 @@ stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out/bin
     makeWrapper ${pythonEnv}/bin/python $out/bin/babble-trainer \
-      --add-flags "$out/lib/main.py"
+      --add-flags "$out/lib/train_frontend.py"
   '';
 
   meta = {

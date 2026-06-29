@@ -88,8 +88,8 @@
         // {
           baballonia-cuda = pkgsCuda.baballonia;
           baballonia-rocm = pkgsRocm.baballonia;
-          baballonia-trainer-cuda = pkgsCuda.babble-trainer;
-          baballonia-trainer-rocm = pkgsRocm.babble-trainer;
+          babble-trainer-cuda = pkgsCuda.babble-trainer;
+          babble-trainer-rocm = pkgsRocm.babble-trainer;
         }
       );
 

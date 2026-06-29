@@ -5,7 +5,7 @@ Provides the following packages:
 - [`baballonia`](https://github.com/Project-Babble/Baballonia)
 - [`vrcft`](https://github.com/benaclejames/VRCFaceTracking)
 - [`vrcft-avalonia`](https://github.com/dfgHiatus/VRCFaceTracking.Avalonia)
-- [`babble-trainer`](https://github.com/Project-Babble/BabbleTrainer) (untested)
+- [`babble-trainer`](https://github.com/Project-Babble/BabbleTrainer)
 
 Packages are provided in CPU, CUDA, and ROCm variants:
 

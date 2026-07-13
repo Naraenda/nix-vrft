@@ -6,6 +6,7 @@ Provides the following packages:
 - [`vrcft`](https://github.com/benaclejames/VRCFaceTracking)
 - [`vrcft-avalonia`](https://github.com/dfgHiatus/VRCFaceTracking.Avalonia)
 - [`babble-trainer`](https://github.com/Project-Babble/BabbleTrainer)
+- [`etvr`](https://github.com/EyeTrackVR/EyeTrackVR)
 
 Packages are provided in CPU, CUDA, and ROCm variants:
 
@@ -66,6 +67,9 @@ The flake can be installed as an overlay.
     packages.${system}.baballonia-cpu  = pkgs.baballonia;
     packages.${system}.baballonia-cuda = pkgs.pkgsCuda.baballonia;
     packages.${system}.baballonia-rocm = pkgs.pkgsRocm.baballonia;
+
+    # EyeTrackVR:
+    packages.${system}.etvr            = pkgs.etvr;
 
     # Recommended VRCFT:
     packages.${system}.vrcft           = pkgs.vrcft;

@@ -45,6 +45,7 @@
             hasOptionalCudaSupport = true;
           }; # baballonia
           vrcft = mkPkg ./pkgs/vrcft { };
+          etvr = mkPkg ./pkgs/etvr { };
         }; # mkPackages
 
       pinnedPkgs =

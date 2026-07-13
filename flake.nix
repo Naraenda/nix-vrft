@@ -91,6 +91,8 @@
           baballonia-rocm = pkgsRocm.baballonia;
           babble-trainer-cuda = pkgsCuda.babble-trainer;
           babble-trainer-rocm = pkgsRocm.babble-trainer;
+          etvr-cuda = pkgsCuda.etvr;
+          etvr-rocm = pkgsRocm.etvr;
         }
       );
 

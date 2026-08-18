@@ -20,8 +20,8 @@ let
   src = fetchFromGitHub {
     owner = "EyeTrackVR";
     repo = "EyeTrackVR";
-    rev = "EyeTrackApp-0.3.0-BETA-7";
-    hash = "sha256-nfJzbfOs3UAC/VXJK0ElIJsb6mpLlBTLO4abNCRTX7U=";
+    rev = "EyeTrackApp-0.3.0-BETA-9";
+    hash = "sha256-wA8jP+19bBuY0afa4AeY7K/DqeGSaTHN1yL4nBnBWGU=";
   };
 
   version = "0.3.0";
@@ -128,10 +128,6 @@ stdenv.mkDerivation {
   inherit version src;
 
   pname = "etvr";
-
-  patches = [
-    ./fix_log_on_readonly_fs.patch
-  ];
 
   nativeBuildInputs = [
     pythonEnv

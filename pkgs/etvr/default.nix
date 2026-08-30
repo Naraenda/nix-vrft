@@ -12,7 +12,8 @@
   vulkan-loader,
   stb,
   cmake,
-  gcc,
+  makeDesktopItem,
+  copyDesktopItems,
   ...
 }:
 
@@ -124,7 +125,7 @@ let
     };
   };
 in
-stdenv.mkDerivation {
+stdenv.mkDerivation (finalAttrs: {
   inherit version src;
 
   pname = "etvr";
@@ -132,6 +133,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     pythonEnv
     makeWrapper
+    copyDesktopItems
   ];
 
   buildInputs = [
@@ -139,16 +141,35 @@ stdenv.mkDerivation {
   ];
 
   buildPhase = ''
-    ls -la
     mkdir -p $out/lib
     cp -r EyeTrackApp $out/lib
     cp -r ${calibration-overlay}/lib/* $out/lib/EyeTrackApp/Tools/
   '';
 
+  desktopEntry = makeDesktopItem {
+    name = finalAttrs.pname;
+    desktopName = "EyeTrackVR";
+    comment = finalAttrs.meta.description;
+    exec = "${finalAttrs.meta.mainProgram} %u";
+    terminal = false;
+    type = "Application";
+    icon = "${finalAttrs.pname}";
+    categories = [ "Game" ];
+  }; # desktopEntry
+  desktopItems = [ finalAttrs.desktopEntry ];
+
   installPhase = ''
+    runHook preInstall
+
+    # Install etvr as a wrapper
     mkdir -p $out/bin
     makeWrapper ${pythonEnv}/bin/python $out/bin/etvr \
       --add-flags "$out/lib/EyeTrackApp/eyetrackapp.py"
+
+    # Install icon for desktop entry
+    install -m 444 -D EyeTrackApp/Images/logo.ico $out/share/pixmaps/${finalAttrs.pname}.ico
+
+    runHook postInstall
   '';
 
   meta = {
@@ -157,4 +178,4 @@ stdenv.mkDerivation {
     homepage = "https://github.com/Project-Babble/BabbleTrainer";
     mainProgram = "etvr";
   }; # meta
-} # stdenv.mkDerivation
+}) # stdenv.mkDerivation

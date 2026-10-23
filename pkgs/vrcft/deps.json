@@ -146,6 +146,11 @@
   },
   {
     "pname": "Microsoft.Extensions.Configuration",
+    "version": "10.0.0",
+    "hash": "sha256-MsLskVPpkCvov5+DWIaALCt1qfRRX4u228eHxvpE0dg="
+  },
+  {
+    "pname": "Microsoft.Extensions.Configuration",
     "version": "10.0.1",
     "hash": "sha256-7xdHie4uHwoGZz5yUT4vWg2EWvkLvsSzItWCoqm4dTM="
   },
@@ -196,6 +201,11 @@
   },
   {
     "pname": "Microsoft.Extensions.DependencyInjection",
+    "version": "10.0.0",
+    "hash": "sha256-LYm9hVlo/R9c2aAKHsDYJ5vY9U0+3Jvclme3ou3BtvQ="
+  },
+  {
+    "pname": "Microsoft.Extensions.DependencyInjection",
     "version": "10.0.1",
     "hash": "sha256-RKOB+zPrtQNUbJY/1jR54rKOM8KHPgynPExxugku3I8="
   },
@@ -218,6 +228,11 @@
     "pname": "Microsoft.Extensions.Diagnostics",
     "version": "10.0.1",
     "hash": "sha256-MoBF0X5AVT0xORvhNvpc9DA5dSOJhjrfGeWDvEJQOoc="
+  },
+  {
+    "pname": "Microsoft.Extensions.Diagnostics.Abstractions",
+    "version": "10.0.0",
+    "hash": "sha256-cix7QxQ/g3sj6reXu3jn0cRv2RijzceaLLkchEGTt5E="
   },
   {
     "pname": "Microsoft.Extensions.Diagnostics.Abstractions",
@@ -311,8 +326,18 @@
   },
   {
     "pname": "Microsoft.Extensions.Options.ConfigurationExtensions",
+    "version": "10.0.0",
+    "hash": "sha256-XGAs5DxMvWnmjX8dqRwKY0vsuS40SHvsfJqB1rO4L7k="
+  },
+  {
+    "pname": "Microsoft.Extensions.Options.ConfigurationExtensions",
     "version": "10.0.1",
     "hash": "sha256-1CNSVXZ3RAH4vzbYDqcQHl9c/YBhuSfrFUXCLIx5/rY="
+  },
+  {
+    "pname": "Microsoft.Extensions.Primitives",
+    "version": "10.0.0",
+    "hash": "sha256-Dup08KcptLjlnpN5t5//+p4n8FUTgRAq4n/w1s6us+I="
   },
   {
     "pname": "Microsoft.Extensions.Primitives",

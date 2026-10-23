@@ -28,9 +28,8 @@ buildDotnetModule (finalAttrs: rec {
   src = fetchFromGitHub {
     owner = "benaclejames";
     repo = "VRCFaceTracking";
-    rev = "07efd7dd3534092433df8c00cfe97e68477f560b"; # refactor/avalonia
-    hash = "sha256-Ox2jyUyS0efkb291iu8NrqodeKtoL6MIQkFNzQAPL6A=";
-    # hash = "sha256-Ox2jyUyS0efkb291iu8NrqodeKtoL6MIQkFNzQAPL6A=";
+    rev = "e1056bb98843dd0fd1b152f24cce3b09d0d19db4";
+    hash = "sha256-+UJi2NtAteTrFbytk3G3FSACjsoEzmS7tsnHT9q+QW4=";
     fetchSubmodules = true;
   };
 
